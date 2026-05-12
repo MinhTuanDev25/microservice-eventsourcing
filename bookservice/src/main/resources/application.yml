@@ -1,6 +1,18 @@
 spring:
   application:
     name: bookservice
+  datasource:
+    url: jdbc:h2:mem:bookDB
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
 
 server:
   port: 9001
