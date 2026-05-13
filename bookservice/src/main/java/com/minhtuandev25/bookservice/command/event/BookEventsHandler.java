@@ -26,22 +26,18 @@ public class BookEventsHandler {
     @EventHandler
     public void on(BookUpdatedEvent event) {
         Optional<Book> oldBook = bookRepository.findById(event.getId());
-        if (oldBook.isEmpty()) {
-            throw new IllegalStateException("Book not found");
-        }
-        Book book = oldBook.get();
-        book.setName(event.getName());
-        book.setAuthor(event.getAuthor());
-        book.setIsReady(event.getIsReady());
-        bookRepository.save(book);
+
+        oldBook.ifPresent(book -> {
+            book.setName(event.getName());
+            book.setAuthor(event.getAuthor());
+            book.setIsReady(event.getIsReady());
+            bookRepository.save(book);
+        }); 
     }
 
     @EventHandler
     public void on(BookDeletedEvent event) {
         Optional<Book> oldBook = bookRepository.findById(event.getId());
-        if (oldBook.isEmpty()) {
-            throw new IllegalStateException("Cannot delete book. Book not found");
-        }
-        bookRepository.delete(oldBook.get());
+        oldBook.ifPresent(book -> bookRepository.delete(book));
     }
 }
