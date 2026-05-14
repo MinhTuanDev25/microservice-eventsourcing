@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Component
 public class BookProjection {
@@ -29,9 +28,9 @@ public class BookProjection {
     }
 
     @QueryHandler
-    public BookResponseModel handle(GetBookByIdQuery query) {
+    public BookResponseModel handle(GetBookByIdQuery query) throws Exception{
         Book book = bookRepository.findById(query.getBookId())
-                .orElseThrow(() -> new NoSuchElementException("Book not found: " + query.getBookId()));
+                .orElseThrow(() -> new Exception("Book not found: " + query.getBookId()));
         BookResponseModel bookResponseModel = new BookResponseModel();
         BeanUtils.copyProperties(book, bookResponseModel);
         return bookResponseModel;
