@@ -2,7 +2,7 @@ spring:
   application:
     name: employeeservice
   datasource:
-    url: jdbc:h2:mem:bookDB
+    url: jdbc:h2:mem:employeeDB
     driver-class-name: org.h2.Driver
     username: sa
     password:
