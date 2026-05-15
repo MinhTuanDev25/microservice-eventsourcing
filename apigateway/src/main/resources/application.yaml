@@ -1,6 +1,20 @@
 spring:
   application:
     name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: employee-service
+          uri: lb://employee-service
+          predicates:
+            - Path=/api/v1/employees/**
+        - id: book-service
+          uri: lb://book-service
+          predicates:
+            - Path=/api/v1/books/**
 
 server:
   port: 8080
