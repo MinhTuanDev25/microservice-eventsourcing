@@ -1,3 +1,6 @@
+gateway:
+  api-key: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+
 spring:
   application:
     name: gateway-service
@@ -14,6 +17,13 @@ spring:
           uri: lb://employee-service
           predicates:
             - Path=/api/v1/employees/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+            - KeyAuthFilter
         - id: book-service
           uri: lb://book-service
           predicates:
@@ -24,6 +34,7 @@ spring:
                 redis-rate-limiter.replenishRate: 10
                 redis-rate-limiter.burstCapacity: 20
                 redis-rate-limiter.requestedTokens: 1
+            - KeyAuthFilter
 
 server:
   port: 8080
